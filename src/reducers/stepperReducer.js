@@ -11,7 +11,7 @@ const stepperReducer = (state = initialStepperState, action) => {
     case types.STEPPER_PREV_STEP: {
       const newCur = state.get("current") - 1;
 
-      if (!(newCur >= 0)) {
+      if (newCur < 0) {
         return state
       }
 
@@ -31,6 +31,16 @@ const stepperReducer = (state = initialStepperState, action) => {
       return state
         .update("done", v => v.add(oldCur))
         .set("current", newCur)
+    }
+
+    case types.STEPPER_JUMP_STEP: {
+      const newCur = action.payload.jump;
+
+      if ((newCur < 0) || (newCur > action.payload.max)) {
+        return state
+      }
+
+      return state.set("current", newCur)
     }
 
     default:

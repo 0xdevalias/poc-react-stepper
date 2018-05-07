@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {prevStep, nextStep} from '../../actions/index';
-import { Link, Redirect } from 'react-router-dom';
-import { Container, Row, Col, Progress } from 'reactstrap';
+import {prevStep, nextStep, jumpStep} from '../../actions/index';
+import {Link, Redirect} from 'react-router-dom';
+import {Container, Row, Col, Progress} from 'reactstrap';
 import './ExampleStepper.css'
 
 const steps = [
-  {label: "Part 1a", content: <p>I am some content 1!</p> },
-  {label: "Part 2b", content: <p>I am some content 2!</p> },
-  {label: "Part 3c", content: <p>I am some content 3!</p> },
-  {label: "Part 4d", content: <p>I am some content 4!</p>, disabled: true },
-  {label: "Part 5d", content: <p>I am some content 5!</p> },
+  {label: "Part 1a", content: <p>I am some content 1!</p>},
+  {label: "Part 2b", content: <p>I am some content 2!</p>},
+  {label: "Part 3c", content: <p>I am some content 3!</p>},
+  {label: "Part 4d", content: <p>I am some content 4!</p>, disabled: true},
+  {label: "Part 5d", content: <p>I am some content 5!</p>},
 ];
 
 class ExampleStepper extends Component {
@@ -23,16 +23,23 @@ class ExampleStepper extends Component {
     var segments = [];
     for (var i = 0; i < steps.length; i++) {
       var color;
-      if (doneList.includes(i)) { color = "done"; }
-      else if (i.toString() === current) { color = null; }
-      else { color = "todo"; }
+      if (doneList.includes(i)) {
+        color = "done";
+      }
+      else if (i.toString() === current) {
+        color = null;
+      }
+      else {
+        color = "todo";
+      }
 
       var label;
       if (i === current || steps[i].disabled) {
         label = steps[i].label;
       } else {
+        const curIndex = i;
         label = (
-          <Link to={`./${i}`}>
+          <Link to={`./${i}`} onClick={() => this.props.jumpStep(curIndex)}>
             {steps[i].label}
           </Link>
         );
@@ -55,11 +62,11 @@ class ExampleStepper extends Component {
   }
 
   hasPrev() {
-    return this.props.current-1 >= 0
+    return this.props.current - 1 >= 0
   }
 
   hasNext() {
-    return !(this.props.current+1 >= steps.length)
+    return !(this.props.current + 1 >= steps.length)
   }
 
   debug() {
@@ -119,6 +126,7 @@ const mapDispatchToProps = dispatch => {
   return {
     prevStep: () => dispatch(prevStep()),
     nextStep: () => dispatch(nextStep(steps.length)),
+    jumpStep: (step) => dispatch(jumpStep(step, steps.length)),
   }
 }
 

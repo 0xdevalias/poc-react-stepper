@@ -12,4 +12,12 @@ const nextStep = (maxStep) => ({
   payload: {max: maxStep}
 })
 
-export {prevStep, nextStep}
+const jumpStep = (jumpStep, maxStep) => ({
+  type: types.STEPPER_JUMP_STEP,
+  payload: {
+    jump: jumpStep,
+    max: maxStep,
+  }
+})
+
+export {prevStep, nextStep, jumpStep}
