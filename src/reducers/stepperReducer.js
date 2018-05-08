@@ -15,9 +15,9 @@ const stepperReducer = (state = initialStepperState, action) => {
         return state
       }
 
-      return state
+      return state.withMutations(s => s
         .update("done", v => v.delete(newCur))
-        .set("current", newCur);
+        .set("current", newCur));
     }
 
     case types.STEPPER_NEXT_STEP: {
@@ -28,9 +28,9 @@ const stepperReducer = (state = initialStepperState, action) => {
         return state
       }
 
-      return state
+      return state.withMutations(s => s
         .update("done", v => v.add(oldCur))
-        .set("current", newCur)
+        .set("current", newCur));
     }
 
     case types.STEPPER_JUMP_STEP: {
