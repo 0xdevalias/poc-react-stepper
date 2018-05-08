@@ -4,7 +4,7 @@ import * as types from '../constants/ActionTypes'
 const initialStepperState = Map({
   current: 0,
   done: Set([])
-})
+});
 
 const stepperReducer = (state = initialStepperState, action) => {
   switch (action.type) {
@@ -12,7 +12,7 @@ const stepperReducer = (state = initialStepperState, action) => {
       const newCur = state.get("current") - 1;
 
       if (newCur < 0) {
-        return state
+        return state;
       }
 
       return state.withMutations(s => s
@@ -25,7 +25,7 @@ const stepperReducer = (state = initialStepperState, action) => {
       const newCur = oldCur + 1;
 
       if (newCur >= action.payload.max) {
-        return state
+        return state;
       }
 
       return state.withMutations(s => s
@@ -37,14 +37,14 @@ const stepperReducer = (state = initialStepperState, action) => {
       const newCur = action.payload.jump;
 
       if ((newCur < 0) || (newCur > action.payload.max)) {
-        return state
+        return state;
       }
 
-      return state.set("current", newCur)
+      return state.set("current", newCur);
     }
 
     default:
-      return state
+      return state;
   }
 }
 
